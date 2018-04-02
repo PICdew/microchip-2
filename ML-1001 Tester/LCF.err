@@ -1,0 +1,12 @@
+Warning[205] D:\PIC\LCF\LCF.ASM 31 : Found directive in column 1. (endm)
+Warning[205] D:\PIC\LCF\LCF.ASM 36 : Found directive in column 1. (endm)
+Warning[205] D:\PIC\LCF\LCF.ASM 39 : Found directive in column 1. (org)
+Message[302] D:\PIC\LCF\LCF.ASM 52 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\PIC\LCF\LCF.ASM 54 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\PIC\LCF\LCF.ASM 55 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\PIC\LCF\LCF.ASM 60 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] D:\PIC\LCF\LCF.ASM 84 : Using default destination of 1 (file).
+Message[305] D:\PIC\LCF\LCF.ASM 85 : Using default destination of 1 (file).
+Message[305] D:\PIC\LCF\LCF.ASM 88 : Using default destination of 1 (file).
+Warning[203] D:\PIC\LCF\LCF.ASM 109 : Found opcode in column 1. (return)
+Warning[205] D:\PIC\LCF\LCF.ASM 111 : Found directive in column 1. (end)

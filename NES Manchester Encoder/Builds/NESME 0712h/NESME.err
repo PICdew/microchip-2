@@ -1,0 +1,30 @@
+Message[301] C:\PROGRA~1\MICROC~1\MPASMS~1\P12F675.INC 36 : MESSAGE: (Processor-header file mismatch.  Verify selected processor.)
+Warning[205] ..\..\NESME 1007\NESME.ASM 11 : Found directive in column 1. (__CONFIG)
+Warning[207] ..\..\NESME 1007\NESME.ASM 42 : Found label after column 1. (packet_len)
+Warning[205] ..\..\NESME 1007\NESME.ASM 53 : Found directive in column 1. (org)
+Message[302] ..\..\NESME 1007\NESME.ASM 64 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] ..\..\NESME 1007\NESME.ASM 72 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] ..\..\NESME 1007\NESME.ASM 74 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] ..\..\NESME 1007\NESME.ASM 76 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] ..\..\NESME 1007\NESME.ASM 91 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 109 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 111 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 112 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 118 : Using default destination of 1 (file).
+Warning[205] ..\..\NESME 1007\NESME.ASM 119 : Found directive in column 1. (endif)
+Message[305] ..\..\NESME 1007\NESME.ASM 48 : Using default destination of 1 (file).
+Warning[205] ..\..\NESME 1007\NESME.ASM 132 : Found directive in column 1. (endif)
+Message[305] ..\..\NESME 1007\NESME.ASM 147 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 159 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 233 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 251 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 296 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 299 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 300 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 309 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 311 : Using default destination of 1 (file).
+Warning[203] ..\..\NESME 1007\NESME.ASM 313 : Found opcode in column 1. (return)
+Message[305] ..\..\NESME 1007\NESME.ASM 395 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 459 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 522 : Using default destination of 1 (file).
+Message[305] ..\..\NESME 1007\NESME.ASM 586 : Using default destination of 1 (file).

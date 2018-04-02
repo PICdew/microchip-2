@@ -1,0 +1,44 @@
+Warning[205] D:\PIC\NES\NESME 2507\NESME.ASM 11 : Found directive in column 1. (__CONFIG)
+Warning[207] D:\PIC\NES\NESME 2507\NESME.ASM 45 : Found label after column 1. (packet_len)
+Warning[205] D:\PIC\NES\NESME 2507\NESME.ASM 56 : Found directive in column 1. (org)
+Message[302] D:\PIC\NES\NESME 2507\NESME.ASM 67 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\PIC\NES\NESME 2507\NESME.ASM 75 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\PIC\NES\NESME 2507\NESME.ASM 77 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\PIC\NES\NESME 2507\NESME.ASM 79 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 101 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 103 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 104 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 110 : Using default destination of 1 (file).
+Warning[205] D:\PIC\NES\NESME 2507\NESME.ASM 111 : Found directive in column 1. (endif)
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 51 : Using default destination of 1 (file).
+Warning[205] D:\PIC\NES\NESME 2507\NESME.ASM 124 : Found directive in column 1. (endif)
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 139 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 151 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 275 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 278 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 279 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 288 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 290 : Using default destination of 1 (file).
+Warning[203] D:\PIC\NES\NESME 2507\NESME.ASM 292 : Found opcode in column 1. (return)
+Warning[203] D:\PIC\NES\NESME 2507\NESME.ASM 321 : Found opcode in column 1. (return)
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 336 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 340 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 344 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 348 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 352 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 360 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 380 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 398 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 416 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 432 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 442 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 446 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 450 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 454 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 458 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 524 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 591 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 655 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 2507\NESME.ASM 720 : Using default destination of 1 (file).
+Warning[205] D:\PIC\NES\NESME 2507\NESME.ASM 729 : Found directive in column 1. (org)
+Warning[202] D:\PIC\NES\NESME 2507\NESME.ASM 730 : Argument out of range.  Least significant bits used.

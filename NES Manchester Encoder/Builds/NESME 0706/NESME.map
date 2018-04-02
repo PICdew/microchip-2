@@ -1,0 +1,102 @@
+MPLINK 4.35, Linker
+Linker Map File - Created Fri Jul 06 11:25:21 2012
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000296
+     .config_2007_NESME.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x00014a      
+                            0x002007    0x002007      
+            332 out of 1168 program addresses used, program memory utilization is 28%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     BIT0   0x00008b    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                     BIT1   0x000096    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                   ENCODE   0x0000b5    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                   HEADER   0x000069    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                     INIT   0x000027    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 LEDBLINK   0x000015    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                LEDBLINK2   0x000056    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+               MANCHESTER   0x000067    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                    OPROS   0x000031    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                  OUTBYTE   0x00007f    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                  OUTLOOP   0x000043    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                OUTREZULT   0x000041    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                    START   0x000001    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                      SUM   0x0000b9    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                     TAKT   0x00003a    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 TAKTLOOP   0x000033    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 TESTSEND   0x0000c1    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+               UPDATE_SUM   0x0000a1    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                    byte1   0x0000d8    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                    byte2   0x0000e2    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                    byte3   0x0000ec    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                    head0   0x00006b    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 mtx_init   0x000067    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelaya0   0x00008c    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelaya1   0x00008e    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelayb0   0x000091    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelayb1   0x000093    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelayc0   0x000097    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelayc1   0x000099    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelaye0   0x00009c    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelaye1   0x00009e    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                   outbu0   0x000075    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                   outby0   0x000082    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                   outby1   0x000087    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                   outby2   0x000088    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    START   0x000001    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 LEDBLINK   0x000015    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                     INIT   0x000027    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                    OPROS   0x000031    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 TAKTLOOP   0x000033    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                     TAKT   0x00003a    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                OUTREZULT   0x000041    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                  OUTLOOP   0x000043    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                LEDBLINK2   0x000056    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 mtx_init   0x000067    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+               MANCHESTER   0x000067    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                   HEADER   0x000069    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                    head0   0x00006b    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                   outbu0   0x000075    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                  OUTBYTE   0x00007f    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                   outby0   0x000082    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                   outby1   0x000087    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                   outby2   0x000088    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                     BIT0   0x00008b    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelaya0   0x00008c    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelaya1   0x00008e    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelayb0   0x000091    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelayb1   0x000093    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                     BIT1   0x000096    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelayc0   0x000097    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelayc1   0x000099    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelaye0   0x00009c    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 ndelaye1   0x00009e    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+               UPDATE_SUM   0x0000a1    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                   ENCODE   0x0000b5    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                      SUM   0x0000b9    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                 TESTSEND   0x0000c1    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                    byte1   0x0000d8    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                    byte2   0x0000e2    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+                    byte3   0x0000ec    program     static D:\PIC\NES\Manchester Encoder\NESME.asm
+
+

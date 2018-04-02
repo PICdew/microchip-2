@@ -1,0 +1,932 @@
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;==================================================================================================
+                      00002 ;====================================  NES Joystic Decoder 1.0 ====================================
+                      00003 ;================================== DERKACH OLEXANDR DEVELOPMENT ==================================
+                      00004 ;========================================= (c) 2012 Alche =========================================
+                      00005 ;=========================================  alche@ukr.net =========================================
+                      00006 ;==================================================================================================
+                      00007 ;05.07.12 Добавлена перекодировка в формат DIY-RC
+                      00008 ;06.07.12 Добавлен маячек для визуального контроля
+                      00009  #include       <P12F675.inc>                           ;файл стандартных определений
+                      00001         LIST
+                      00002 ; P12F675.INC  Standard Header File, Version 1.04    Microchip Technology, Inc.
+                      00284         LIST
+Warning[205]: Found directive in column 1. (__CONFIG)
+2007   3FC4           00010 __CONFIG _INTRC_OSC_NOCLKOUT & _WDT_OFF & _PWRTE_ON & _MCLRE_OFF & _CP_OFF & _CPD_OFF
+                      00011 
+                      00012 ;==================================================================================================
+                      00013 ;==================================== Раздел описания констант ====================================
+                      00014 ;==================================================================================================
+                      00015         #DEFINE INPUT           GPIO,2                  ;Ввод даных
+                      00016         #DEFINE CLK                     GPIO,0                  ;Вывод синхроимпульса
+                      00017         #DEFINE LATCH           GPIO,1                  ;Вывод записи в регистр
+                      00018         #DEFINE OUT                     GPIO,5                  ;Вывод результата
+                      00019         #DEFINE LED                     GPIO,4                  ;Вывод подключения светодиода
+                      00020         #DEFINE MODE_INV                                        ;Результат (1ый бит слева = MODE_NORM, с
+                            права=MODE_INV)
+                      00021         CBLOCK  0x020
+                      00022 
+  00000020            00023         d1
+  00000021            00024         d2
+  00000022            00025         tmp
+  00000023            00026         cnt                                                                     ;Ячейка счета
+  00000024            00027         cnt1                                                            ;Ячейка счета в манчестеровских 
+                            процедурах
+  00000025            00028         cnt2                                                            ;Ячейка счета в манчестеровских 
+                            процедурах
+  00000026            00029         cnt3                                                            ;Ячейка счета для перекодировки 
+                            в формат DIY-RC
+  00000027            00030         sum                                                                     ;Ячайка для счета CRC в 
+                            манчестере
+  00000028            00031         bt                                                                      ;Ячейка временного буфер
+                            а передачи в манчестере
+  00000029            00032         mtx_delay                                                       ;Ячейка длительности передаваемо
+                            го импульса
+  0000002A            00033         ncnt                                                            ;Ячейка счета в манчестере      
+  0000002B            00034         temp                                                            ;Временная ячейка 1
+  0000002C            00035         temp1                                                           ;Временная ячейка 2
+  0000002D            00036         tcnt                                                            ;Ячейка счета в манчестере
+  0000002E            00037         rezult                                                          ;Ячейка промежуточного результат
+                            а
+  0000002F            00038         mtx_buffer                                                      ;Ячейка для передачи передается 
+                            номер пульта +1 = передается код кнопки
+                      00039         
+                      00040         ENDC
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00041 
+Warning[207]: Found label after column 1. (packet_len)
+  00000002            00042     packet_len  EQU 2
+                      00043 
+                      00044 
+                      00045 SHORTPAUSE macro
+                      00046         movlw   0xFF
+                      00047         movwf   temp
+                      00048         decfsz  temp
+                      00049         goto    $-1
+                      00050  endm
+                      00051 
+                      00052 
+Warning[205]: Found directive in column 1. (org)
+0000                  00053 org 0x000
+0000   2801           00054         goto    START
+                      00055 ;==================================================================================================
+                      00056 ;==================================== Начальная  инициализация ====================================
+                      00057 ;==================================================================================================
+0001                  00058 START
+0001   018B           00059         clrf    INTCON                                          ;Очистка регистра прерываний
+0002   1683           00060         bsf             STATUS,RP0                              ;Банк 1
+                      00061 ;       call    0x3FF                                           ;Считаем калибровочную константу
+                      00062 ;       movwf   OSCCAL                                          ;Поместим в регистр
+0003   3000           00063         movlw   b'00000000'                                     ;Значение для регистра OPTION
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0004   0081           00064         movwf   OPTION_REG                                      ;Поместили значение в регистр OPTION
+0005   1283           00065         bcf             STATUS,RP0                                      ;Вернулись в Банк 0
+0006   0185           00066         clrf    GPIO                                            ;Очистили порт
+0007   3007           00067         movlw   b'00000111'                                     ;Значение для конфигурации компаратора (
+                            отключаем)
+0008   0099           00068         movwf   CMCON                                           ;Поместили в регистр конфигурации компар
+                            атора
+                      00069 
+0009   1683           00070         bsf             STATUS,RP0                                      ;Переходим в банк 1
+000A   3010           00071         movlw   b'00010000'                                     ;Слово конфигурации для ANSEL, FOsc/2 GP
+                            0 аналоговый вход
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000B   009F           00072         movwf   ANSEL                                           ;Поместили слово в регистр
+000C   3004           00073         movlw   b'00000100'                                     ;GP4 вход, остальные выходы
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000D   0085           00074         movwf   TRISIO                                          ;Поместили в регистр конфигурации входов
+                            /выходов
+000E   3012           00075         movlw   b'00010010'                                     ;Слово конфигурации для WPU 
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000F   0095           00076         movwf   WPU                                                     ;Включили подтягивающие резистор
+                            ы
+                      00077 
+0010   1283           00078         bcf             STATUS,RP0                                      ;Вернулись в банк 0
+0011   3081           00079         movlw   b'10000001'                                     ;Слово конфигурации для ADCON
+0012   009F           00080         movwf   ADCON0                                          ;Поместили слово в регистр
+                      00081         
+0013   3003           00082         movlw   0x03
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0014   00A3           00083         movwf   cnt
+0015                  00084 LEDBLINK
+0015   1605           00085         bsf             LED
+0016   20AC           00086         call    PAUSE
+0017   20AC           00087         call    PAUSE
+0018   1205           00088         bcf             LED
+0019   20AC           00089         call    PAUSE
+001A   20AC           00090         call    PAUSE
+Message[305]: Using default destination of 1 (file).
+001B   0BA3           00091         decfsz  cnt
+001C   2815           00092         goto    LEDBLINK
+001D   20F6           00093         call    TESTSEND2
+                      00094 
+001E                  00095 INIT
+001E   01A2           00096         clrf    tmp
+001F   1285           00097         bcf             OUT
+0020   01AE           00098         clrf    rezult                                          ;Очистили ячейку результата             
+                                    
+0021   1003           00099         bcf             STATUS,C                                        ;Сбросили флаг переноса после пр
+                            едыдущих операций для коректности переноса
+0022   1405           00100         bsf             CLK                                                     ;Установили 1 на выводе 
+                            тактирования сдвигового регистра
+0023   1485           00101         bsf             LATCH                                           ;Дали команду регистру считать с
+                            остояние выводов
+0024   1085           00102         bcf             LATCH                                           ;Установили 0 на выводе PS
+                      00103 
+0025                  00104 OPROS
+0025   3008           00105         movlw   0x08                                            ;Количество проходов для считывания выхо
+                            да регистра
+0026   00A3           00106         movwf   cnt                                                     ;Поместили во временную ячейку с
+                            чета
+0027                  00107 TAKTLOOP
+0027   202E           00108         call    TAKT                                            ;Будем тактировать вывод и считать резул
+                            ьтат
+Message[305]: Using default destination of 1 (file).
+0028   0BA3           00109         decfsz  cnt                                                     ;Декримент ячейки счети
+0029   2827           00110         goto    TAKTLOOP                                        ;Если не 0 то на начало цикла
+Message[305]: Using default destination of 1 (file).
+002A   0AAE           00111         incf    rezult                                          ;Иначе инкриментируем результат
+Message[305]: Using default destination of 1 (file).
+002B   0BAE           00112         decfsz  rezult                                          ;Теперь декриментируем
+002C   2839           00113         goto    OUTREZULT                                       ;Если резуьтат не ноль то будем его выво
+                            дить
+002D   281E           00114         goto    INIT                                            ;Иначе будем опрашивать снова
+                      00115 
+002E                  00116 TAKT
+                      00117 #ifdef MODE_INV                                                 ;Если указан режим INV
+Message[305]: Using default destination of 1 (file).
+002E   0DAE           00118         rlf             rezult                                          ;То будем сдвигать результат вле
+                            во
+Warning[205]: Found directive in column 1. (endif)
+                      00119 endif                                                                   ;Конец если
+                      00120 
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00121 #ifdef MODE_NORM                                                ;Если указан режим NORM
+                      00122         rrf             rezult                                          ;то будем сдвигать результат впр
+                            аво
+                      00123 endif                                                                   ;конец если
+                      00124 
+002F   1003           00125         bcf             STATUS,C                                        ;Очистили флаг переноса
+0030   1405           00126         bsf             CLK                                                     ;Установим 1 на выводе с
+                            двига регистра
+                      00127         SHORTPAUSE                                                      ;Небольшая пауза, даем время уст
+                            ановиться 
+0031   30FF               M         movlw   0xFF
+0032   00AB               M         movwf   temp
+Message[305]: Using default destination of 1 (file).
+0033   0BAB               M         decfsz  temp
+0034   2833               M         goto    $-1
+0035   1D05           00128         btfss   INPUT                                           ;Проверим состояние входа если пришел 0 
+                      00129 
+                      00130 #ifdef MODE_INV                                                 ;Если указан режим INV
+0036   142E           00131         bsf             rezult,0                                        ;то установим нулевой бит регист
+                            ра результата в 1
+Warning[205]: Found directive in column 1. (endif)
+                      00132 endif                                                                   ;конец если
+                      00133 
+                      00134 #ifdef MODE_NORM                                                ;Если указан режим NORM
+                      00135         bsf             rezult,7                                        ;то установим седьмой бит регист
+                            ра результата в 1
+                      00136 endif                                                                   ;конец если
+                      00137 
+0037   1005           00138         bcf             CLK                                                     ;Установим 0 на выводе с
+                            двига регистра
+0038   0008           00139  return                                                                 ;и возвращаемся
+                      00140 
+0039                  00141 OUTREZULT
+0039   082E           00142         movfw   rezult                                          ;Поместили в рабочий регистр результат
+003A   00A3           00143         movwf   cnt                                                     ;Рабочий регистр во временную яч
+                            ейку счета
+003B                  00144 OUTLOOP
+003B   1285           00145         bcf             OUT                                                     ;Установим 0 на выходе
+003C   1685           00146         bsf             OUT                                                     ;установим 1 на выходе
+Message[305]: Using default destination of 1 (file).
+003D   0BA3           00147         decfsz  cnt                                                     ;Уменьшим счетчик на 1, если сче
+                            тчик не 0
+003E   283B           00148         goto    OUTLOOP                                         ;то на начало цикла
+003F   20A0           00149         call    ENCODE                                          ;Вызовем кодер посылки (для DIY-RC Proje
+                            ct)
+0040   082E           00150         movfw   rezult                                          ;Поместили результ в w  
+0041   00B0           00151         movwf   mtx_buffer+1                            ;Перенесли w в буферотправки+1
+0042   0830           00152         movf    (mtx_buffer+1),W                
+0043   393F           00153         andlw   0x3F
+0044   042D           00154         iorwf   tcnt,W
+0045   00B0           00155         movwf   (mtx_buffer+1)
+0046   3003           00156         movlw   3                                                       ;Количество повторных отправок
+0047   00AB           00157         movwf   temp                                            ;в ячейку счета
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0048   2051           00158         call    MANCHESTER                                      ;Выводим код
+Message[305]: Using default destination of 1 (file).
+0049   0BAB           00159         decfsz  temp                                            ;Уменьшим и если не 0
+004A   2848           00160         goto    $-2                                                     ;то зациклимся
+004B   082E           00161         movfw   rezult
+004C   3040           00162         movlw   0x40
+004D   07AD           00163         addwf   tcnt,F
+                      00164 
+004E   082E           00165         movfw   rezult
+004F   00A3           00166         movwf   cnt
+                      00167 ;LEDBLINK2
+                      00168 ;       call    PAUSE
+                      00169 ;       call    PAUSE
+                      00170 ;       bsf             LED
+                      00171 ;       call    PAUSE
+                      00172 ;       call    PAUSE
+                      00173 ;       bcf             LED
+                      00174         
+                      00175 ;       decfsz  cnt
+                      00176 ;       goto    LEDBLINK2
+0050   281E           00177         goto    INIT                                            ;иначе возвращаемся в самое начало
+                      00178 
+                      00179 
+                      00180 ;==================================================================================================
+                      00181 ;========================================= MANCHESTER =============================================
+                      00182 ;==================================================================================================
+0051                  00183 MANCHESTER
+0051   01A2           00184         clrf    tmp
+0052                  00185 mtx_init
+                      00186 ;       movlw   0x75                                            ;Значение длительности импульсов 
+                      00187 ;       movwf   mtx_delay                                       ;Поместили в регистр
+                      00188 
+0052                  00189 HEADER                                                                  ;Посылка заголовка
+0052   3014           00190         movlw   0x14                                            ;Количество единиц в заголовке
+0053   00A5           00191         movwf   cnt2                                            ;Ячейка для счета
+0054                  00192 head0                                                                   ;Начинаем посылку
+0054   2080           00193         call    BIT1                                            ;Отправим 1
+0055   0BA5           00194         decfsz  cnt2,F                                          ;уменшим счетчик и если не ноль
+0056   2854           00195         goto    head0                                           ;перейдем на начало цикла
+0057   2074           00196         call    BIT0                                            ;иначе отправим 0
+0058   302F           00197         movlw   mtx_buffer                                      ;
+0059   0084           00198         movwf   FSR         
+005A   3002           00199         movlw   packet_len        
+005B   00A4           00200         movwf   cnt1     
+005C   30FF           00201         movlw   0xFF        
+005D   00A7           00202         movwf   sum     
+005E                  00203 outbu0 
+005E   0800           00204         movf    INDF,W                                          ;w=FF,75,FF,75  
+005F   208C           00205         call    UPDATE_SUM                                      ;w=0,41,0,41,0,41 (содержимое ячеек)
+0060   0800           00206         movf    INDF,W                                          ;w=AC,8D,AC,
+0061   2068           00207         call    OUTBYTE                                         ;w=0,41,0,41,0,41
+0062   0A84           00208         incf    FSR,F       
+0063   0BA4           00209         decfsz  cnt1,F   
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0064   285E           00210         goto    outbu0     
+0065   0827           00211         movf    sum,W   
+0066   2068           00212         call    OUTBYTE     
+0067   0008           00213  return              
+                      00214 
+0068                  00215 OUTBYTE
+0068   00A8           00216         movwf   bt    
+0069   3008           00217         movlw   0x08        
+006A   00A5           00218         movwf   cnt2     
+006B                  00219 outby0 
+006B   0DA8           00220         rlf     bt,F   
+006C   1803           00221         btfsc   STATUS,C    
+006D   2870           00222         goto    outby1     
+006E   2074           00223         call    BIT0    
+006F   2871           00224         goto    outby2     
+0070                  00225 outby1
+0070   2080           00226         call    BIT1     
+0071                  00227 outby2 
+0071   0BA5           00228         decfsz  cnt2,F   
+0072   286B           00229         goto    outby0     
+0073   2080           00230         call    BIT1    
+                      00231 
+0074                  00232 BIT0
+Message[305]: Using default destination of 1 (file).
+0074   0AA2           00233         incf    tmp
+0075   1685           00234         bsf             OUT
+0076                  00235 ndelaya0       
+0076   0829           00236         movf    mtx_delay,W   
+0077   00AA           00237         movwf   ncnt     
+0078                  00238 ndelaya1
+0078   0BAA           00239         decfsz  ncnt,F   
+0079   2878           00240         goto    ndelaya1
+007A   1285           00241         bcf             OUT
+007B                  00242 ndelayb0    
+007B   0829           00243         movf    mtx_delay,W   
+007C   00AA           00244         movwf   ncnt     
+007D                  00245 ndelayb1
+007D   0BAA           00246         decfsz  ncnt,F   
+007E   287D           00247         goto    ndelayb1
+007F   0008           00248  return            
+                      00249 
+0080                  00250 BIT1
+Message[305]: Using default destination of 1 (file).
+0080   0AA2           00251         incf    tmp
+0081   1285           00252         bcf             OUT
+0082                  00253 ndelayc0
+0082   0829           00254         movf    mtx_delay,W
+0083   00AA           00255         movwf   ncnt
+0084                  00256 ndelayc1
+0084   0BAA           00257         decfsz  ncnt,F
+0085   2884           00258         goto    ndelayc1
+0086   1685           00259         bsf             OUT
+0087                  00260 ndelaye0
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE  7
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0087   0829           00261         movf    mtx_delay,W
+0088   00AA           00262         movwf   ncnt
+0089                  00263 ndelaye1
+0089   0BAA           00264         decfsz  ncnt,F
+008A   2889           00265         goto    ndelaye1
+008B   0008           00266  return 
+                      00267 
+008C                  00268 UPDATE_SUM
+008C   06A7           00269         xorwf   sum,F   
+008D   0103           00270         clrw                
+008E   1BA7           00271         btfsc   sum,7   
+008F   3A7A           00272         xorlw   0x7A        
+0090   1B27           00273         btfsc   sum,6   
+0091   3A3D           00274         xorlw   0x3D        
+0092   1AA7           00275         btfsc   sum,5   
+0093   3A86           00276         xorlw   0x86        
+0094   1A27           00277         btfsc   sum,4   
+0095   3A43           00278         xorlw   0x43        
+0096   19A7           00279         btfsc   sum,3   
+0097   3AB9           00280         xorlw   0xB9        
+0098   1927           00281         btfsc   sum,2   
+0099   3AC4           00282         xorlw   0xC4        
+009A   18A7           00283         btfsc   sum,1   
+009B   3A62           00284         xorlw   0x62        
+009C   1827           00285         btfsc   sum,0   
+009D   3A31           00286         xorlw   0x31        
+009E   00A7           00287         movwf   sum   
+009F   0008           00288  return  
+                      00289 
+00A0                  00290 ENCODE                                                                                  ;Кодировка под D
+                            IY-RC (кнопки номеруются от 1 до 8)
+00A0   3008           00291         movlw   0x08                                                            ;Счетчик циклов
+00A1   00A3           00292         movwf   cnt                                                                     ;Ячейка счета
+00A2   0103           00293         clrw                                                                            ;Очистили рабочи
+                            й регистр, в него будем помещать результат
+00A3   01A6           00294         clrf    cnt3                                                            ;Ячейка счета кнопок
+00A4                  00295 SUM
+Message[305]: Using default destination of 1 (file).
+00A4   0AA6           00296         incf    cnt3                                                            ;Инкремент счетчика 
+00A5   182E           00297         btfsc   rezult,0                                                        ;Если нулевой бит равен 
+                            1
+00A6   0726           00298         addwf   cnt3,0                                                          ;тогда суммируем значени
+                            я счетчика кнопок и рабочего регистра
+Message[305]: Using default destination of 1 (file).
+00A7   0CAE           00299         rrf             rezult                                                          ;Сдвигаем вправо
+                             резултат
+Message[305]: Using default destination of 1 (file).
+00A8   0BA3           00300         decfsz  cnt                                                                     ;Декримент счетч
+                            ика цикла
+00A9   28A4           00301         goto    SUM                                                                     ;Если не 0 то за
+                            циклимся
+00AA   00AE           00302         movwf   rezult                                                          ;Иначе поместим значение
+                             из W в rezult
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE  8
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00AB   0008           00303  return                                                                                 ;Возвращаемся
+                      00304 
+00AC                  00305 PAUSE
+00AC   30FF           00306         movlw   0xFF
+00AD   00AC           00307         movwf   temp1
+00AE   00AB           00308         movwf   temp
+Message[305]: Using default destination of 1 (file).
+00AF   0BAB           00309         decfsz  temp
+00B0   28AF           00310         goto    $-1
+Message[305]: Using default destination of 1 (file).
+00B1   0BAC           00311         decfsz  temp1
+00B2   28AE           00312         goto $-4
+Warning[203]: Found opcode in column 1. (return)
+00B3   0008           00313 return
+                      00314 
+                      00315 
+00B4                  00316 Delay
+                      00317                         ;9993 cycles
+00B4   30C6           00318         movlw   0xC6
+00B5   00A0           00319         movwf   d1
+00B6   3001           00320         movlw   0x01
+00B7   00A1           00321         movwf   d2
+00B8                  00322 Delay_0
+00B8   0BA0           00323         decfsz  d1, f
+00B9   28BB           00324         goto    $+2
+00BA   0BA1           00325         decfsz  d2, f
+00BB   28B8           00326         goto    Delay_0
+                      00327 
+                      00328                         ;3 cycles
+00BC   28BD           00329         goto    $+1
+00BD   0000           00330         nop
+                      00331 
+                      00332                         ;4 cycles (including call)
+00BE   0008           00333         return
+                      00334 
+                      00335 
+00BF                  00336 TESTSEND
+00BF   3075           00337                                 movlw   0x75        
+00C0   00A9           00338                         movwf   mtx_delay   
+00C1   2080           00339                                 call    BIT1;1
+00C2   2080           00340                                 call    BIT1;2
+00C3   2080           00341                                 call    BIT1;3
+00C4   2080           00342                                 call    BIT1;4
+00C5   2080           00343                                 call    BIT1;5
+00C6   2080           00344                                 call    BIT1;6
+00C7   2080           00345                                 call    BIT1;7
+00C8   2080           00346                                 call    BIT1;8
+00C9   2080           00347                                 call    BIT1;9
+00CA   2080           00348                                 call    BIT1;10
+00CB   2080           00349                                 call    BIT1;11
+00CC   2080           00350                                 call    BIT1;12
+00CD   2080           00351                                 call    BIT1;13
+00CE   2080           00352                                 call    BIT1;14
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE  9
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+00CF   2080           00353                                 call    BIT1;15
+00D0   2080           00354                                 call    BIT1;16
+00D1   2080           00355                                 call    BIT1;17
+00D2   2080           00356                                 call    BIT1;18
+00D3   2080           00357                                 call    BIT1;19
+00D4   2080           00358                                 call    BIT1;20
+00D5   2074           00359                                 call    BIT0;21
+                      00360 ;outbu0
+                      00361 ;outbyteprohod1
+00D6                  00362 byte1
+00D6   2074           00363                                 call    BIT0;22
+00D7   2074           00364                                 call    BIT0;23
+00D8   2074           00365                                 call    BIT0;24
+00D9   2074           00366                                 call    BIT0;25s
+00DA   2074           00367                                 call    BIT0;26
+00DB   2074           00368                                 call    BIT0;27
+00DC   2074           00369                                 call    BIT0;28
+00DD   2074           00370                                 call    BIT0;29
+                      00371 
+00DE   2080           00372                                 call    BIT1;30
+00DF   2074           00373                                 call    BIT0;31
+                      00374 ;outbyteprohod2
+00E0                  00375 byte2
+00E0   2074           00376                                 call    BIT0;32
+00E1   2080           00377                                 call    BIT1;33
+00E2   2074           00378                                 call    BIT0;34
+00E3   2074           00379                                 call    BIT0;35
+00E4   2074           00380                                 call    BIT0;36
+00E5   2074           00381                                 call    BIT0;37
+00E6   2074           00382                                 call    BIT0;38
+00E7   2080           00383                                 call    BIT1;39
+                      00384 
+00E8   2080           00385                                 call    BIT1;40
+00E9   2074           00386                                 call    BIT0;41
+                      00387 ;outbytebeforereturn
+00EA                  00388 byte3
+00EA   2080           00389                                 call    BIT1;42
+00EB   2074           00390                                 call    BIT0;43
+00EC   2074           00391                                 call    BIT0;44
+00ED   2074           00392                                 call    BIT0;45
+00EE   2080           00393                                 call    BIT1;46
+00EF   2080           00394                                 call    BIT1;47
+00F0   2074           00395                                 call    BIT0;48
+00F1   2080           00396                                 call    BIT1;49
+                      00397 
+00F2   2080           00398                                 call    BIT1;50
+00F3   2074           00399                                 call    BIT0;51
+00F4   20B4           00400                                 call    Delay
+                      00401         ;                       call            PAUSE
+                      00402         ;                       call            PAUSE
+                      00403         ;                       call            PAUSE
+                      00404         ;                       call            PAUSE
+                      00405         ;                       call            PAUSE
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE 10
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00406         ;                       call            PAUSE
+                      00407         ;                       call            PAUSE
+                      00408         ;                       call            PAUSE
+                      00409         ;                       call            PAUSE
+                      00410         ;                       call            PAUSE
+                      00411         ;                       call            PAUSE
+                      00412 
+00F5   28BF           00413         goto TESTSEND 
+                      00414 
+00F6                  00415 TESTSEND2
+00F6   1605           00416         bsf             LED
+Message[305]: Using default destination of 1 (file).
+00F7   0AA9           00417         incf    mtx_delay
+00F8   3001           00418         movlw   0x01
+00F9   00B0           00419         movwf   mtx_buffer+1
+00FA   2051           00420         call    MANCHESTER
+00FB   20B4           00421         call    Delay
+00FC   2051           00422         call    MANCHESTER
+00FD   20B4           00423         call    Delay
+00FE   2051           00424         call    MANCHESTER
+00FF   20B4           00425         call    Delay
+0100   3001           00426         movlw   0x01
+0101   00B0           00427         movwf   mtx_buffer+1
+0102   2051           00428         call    MANCHESTER
+0103   20B4           00429         call    Delay
+0104   2051           00430         call    MANCHESTER
+0105   20B4           00431         call    Delay
+0106   2051           00432         call    MANCHESTER
+0107   20B4           00433         call    Delay
+0108   3041           00434         movlw   0x41
+0109   00B0           00435         movwf   mtx_buffer+1
+010A   2051           00436         call    MANCHESTER
+010B   20B4           00437         call    Delay
+010C   2051           00438         call    MANCHESTER
+010D   20B4           00439         call    Delay
+010E   2051           00440         call    MANCHESTER
+010F   20B4           00441         call    Delay
+0110   3041           00442         movlw   0x41
+0111   00B0           00443         movwf   mtx_buffer+1
+0112   2051           00444         call    MANCHESTER
+0113   20B4           00445         call    Delay
+0114   2051           00446         call    MANCHESTER
+0115   20B4           00447         call    Delay
+0116   2051           00448         call    MANCHESTER
+0117   20B4           00449         call    Delay
+0118   1205           00450         bcf             LED
+0119   3041           00451         movlw   0x41
+011A   00B0           00452         movwf   mtx_buffer+1
+011B   2051           00453         call    MANCHESTER
+011C   20B4           00454         call    Delay
+011D   2051           00455         call    MANCHESTER
+011E   20B4           00456         call    Delay
+011F   2051           00457         call    MANCHESTER
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE 11
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0120   20B4           00458         call    Delay
+0121   3081           00459         movlw   0x81
+0122   00B0           00460         movwf   mtx_buffer+1
+0123   2051           00461         call    MANCHESTER
+0124   20B4           00462         call    Delay
+0125   2051           00463         call    MANCHESTER
+0126   20B4           00464         call    Delay
+0127   2051           00465         call    MANCHESTER
+0128   20B4           00466         call    Delay
+0129   3081           00467         movlw   0x81
+012A   00B0           00468         movwf   mtx_buffer+1
+012B   2051           00469         call    MANCHESTER
+012C   20B4           00470         call    Delay
+012D   2051           00471         call    MANCHESTER
+012E   20B4           00472         call    Delay
+012F   2051           00473         call    MANCHESTER
+0130   20B4           00474         call    Delay
+0131   3081           00475         movlw   0x81
+0132   00B0           00476         movwf   mtx_buffer+1
+0133   2051           00477         call    MANCHESTER
+0134   20B4           00478         call    Delay
+0135   2051           00479         call    MANCHESTER
+0136   20B4           00480         call    Delay
+0137   2051           00481         call    MANCHESTER
+0138   20B4           00482         call    Delay
+0139   30C1           00483         movlw   0xC1
+013A   00B0           00484         movwf   mtx_buffer+1
+013B   2051           00485         call    MANCHESTER
+013C   20B4           00486         call    Delay
+013D   2051           00487         call    MANCHESTER
+013E   20B4           00488         call    Delay
+013F   2051           00489         call    MANCHESTER
+0140   20B4           00490         call    Delay
+0141   30C1           00491         movlw   0xC1
+0142   00B0           00492         movwf   mtx_buffer+1
+0143   2051           00493         call    MANCHESTER
+0144   20B4           00494         call    Delay
+0145   2051           00495         call    MANCHESTER
+0146   20B4           00496         call    Delay
+0147   2051           00497         call    MANCHESTER
+0148   20B4           00498         call    Delay
+0149   30C1           00499         movlw   0xC1
+014A   00B0           00500         movwf   mtx_buffer+1
+014B   2051           00501         call    MANCHESTER
+014C   20B4           00502         call    Delay
+014D   2051           00503         call    MANCHESTER
+014E   20B4           00504         call    Delay
+014F   2051           00505         call    MANCHESTER
+0150   20B4           00506         call    Delay
+                      00507 
+0151   28F6           00508         goto TESTSEND2
+                      00509 
+                      00510 
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE 12
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00511 ;org 0x3FF
+                      00512 ;retlw 0x3424
+                      00513  end
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE 13
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADCON0                            0000001F
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+ANS0                              00000000
+ANS1                              00000001
+ANS2                              00000002
+ANS3                              00000003
+ANSEL                             0000009F
+BIT0                              00000074
+BIT1                              00000080
+C                                 00000000
+CAL0                              00000002
+CAL1                              00000003
+CAL2                              00000004
+CAL3                              00000005
+CAL4                              00000006
+CAL5                              00000007
+CHS0                              00000002
+CHS1                              00000003
+CINV                              00000004
+CIS                               00000003
+CLK                               GPIO,0
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             00000019
+CMIE                              00000003
+CMIF                              00000003
+COUT                              00000006
+DC                                00000001
+Delay                             000000B4
+Delay_0                           000000B8
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDAT                             0000009A
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+ENCODE                            000000A0
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+GO                                00000001
+GO_DONE                           00000001
+GP0                               00000000
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE 14
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+GP1                               00000001
+GP2                               00000002
+GP3                               00000003
+GP4                               00000004
+GP5                               00000005
+GPIE                              00000003
+GPIF                              00000000
+GPIO                              00000005
+GPIO0                             00000000
+GPIO1                             00000001
+GPIO2                             00000002
+GPIO3                             00000003
+GPIO4                             00000004
+GPIO5                             00000005
+HEADER                            00000052
+INDF                              00000000
+INIT                              0000001E
+INPUT                             GPIO,2
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IOC                               00000096
+IOC0                              00000000
+IOC1                              00000001
+IOC2                              00000002
+IOC3                              00000003
+IOC4                              00000004
+IOC5                              00000005
+IOCB                              00000096
+IOCB0                             00000000
+IOCB1                             00000001
+IOCB2                             00000002
+IOCB3                             00000003
+IOCB4                             00000004
+IOCB5                             00000005
+IRP                               00000007
+LATCH                             GPIO,1
+LED                               GPIO,4
+LEDBLINK                          00000015
+MANCHESTER                        00000051
+MODE_INV                          
+NOT_BOD                           00000000
+NOT_DONE                          00000001
+NOT_GPPU                          00000007
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OPROS                             00000025
+OPTION_REG                        00000081
+OSCCAL                            00000090
+OUT                               GPIO,5
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE 15
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+OUTBYTE                           00000068
+OUTLOOP                           0000003B
+OUTREZULT                         00000039
+PAUSE                             000000AC
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+SHORTPAUSE                        
+START                             00000001
+STATUS                            00000003
+SUM                               000000A4
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1IE                              00000000
+T1IF                              00000000
+T1OSCEN                           00000003
+TAKT                              0000002E
+TAKTLOOP                          00000027
+TESTSEND                          000000BF
+TESTSEND2                         000000F6
+TMR0                              00000001
+TMR1CS                            00000001
+TMR1GE                            00000006
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TRISIO                            00000085
+UPDATE_SUM                        0000008C
+VCFG                              00000006
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             00000099
+VREN                              00000007
+VRR                               00000005
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE 16
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+W                                 00000000
+WPU                               00000095
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00003F7F
+_EC_OSC                           00003FFB
+_EXTRC_OSC_CLKOUT                 00003FFF
+_EXTRC_OSC_NOCLKOUT               00003FFE
+_HS_OSC                           00003FFA
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FF8
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FEF
+_WDT_OFF                          00003FF7
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FF9
+__12F675                          00000001
+__DEBUG                           1
+bt                                00000028
+byte1                             000000D6
+byte2                             000000E0
+byte3                             000000EA
+cnt                               00000023
+cnt1                              00000024
+cnt2                              00000025
+cnt3                              00000026
+d1                                00000020
+d2                                00000021
+head0                             00000054
+mtx_buffer                        0000002F
+mtx_delay                         00000029
+mtx_init                          00000052
+ncnt                              0000002A
+ndelaya0                          00000076
+ndelaya1                          00000078
+ndelayb0                          0000007B
+ndelayb1                          0000007D
+ndelayc0                          00000082
+ndelayc1                          00000084
+ndelaye0                          00000087
+ndelaye1                          00000089
+outbu0                            0000005E
+outby0                            0000006B
+MPASM  5.35beta                         NESME.ASM   7-11-2012  14:21:51         PAGE 17
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+outby1                            00000070
+outby2                            00000071
+packet_len                        00000002
+rezult                            0000002E
+sum                               00000027
+tcnt                              0000002D
+temp                              0000002B
+temp1                             0000002C
+tmp                               00000022
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0080 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+00C0 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0100 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0140 : XXXXXXXXXXXXXXXX XX-------------- ---------------- ----------------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   338
+Program Memory Words Free:   686
+
+
+Errors   :     0
+Warnings :     6 reported,     0 suppressed
+Messages :    20 reported,     0 suppressed
+
+

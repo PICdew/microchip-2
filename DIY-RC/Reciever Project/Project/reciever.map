@@ -1,0 +1,112 @@
+MPLINK 4.35, Linker
+Linker Map File - Created Tue Mar 29 15:15:13 2011
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000200
+                   .cinit    romdata   0x000100    program   0x000004
+  .config_2007_RECIEVER.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000101      
+                            0x002007    0x002007      
+            259 out of 2181 program addresses used, program memory utilization is 11%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+           channel_lookup   0x000005    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                     chk0   0x0000e3    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                  chk_err   0x0000fe    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      itr   0x00000f    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                     loop   0x00003b    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                     main   0x000023    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+              mrx_chk_buf   0x0000dd    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                 mrx_init   0x0000ff    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+              mrx_receive   0x000080    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                next_byte   0x0000c5    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                    rx_ok   0x000048    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s10   0x0000a7    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s11   0x0000a9    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s12   0x0000ad    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s13   0x0000b1    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s14   0x0000b4    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s15   0x0000b6    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s16   0x0000b8    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+           s16_header_end   0x0000c0    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+           s16_not_header   0x0000c8    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                   s16_s2   0x0000d2    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                   s16_s4   0x0000d5    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s2   0x000088    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s3   0x000080    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s4   0x000081    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s5   0x000082    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s6   0x00008a    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                     s6_w   0x00008b    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s7   0x000094    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s8   0x000095    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                   s8_ss0   0x000097    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                   s8_ss1   0x00009f    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                   s9_ss0   0x000099    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                   s9_ss1   0x0000a1    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+               state_done   0x00006e    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+             state_on_off   0x000067    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                state_out   0x000079    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+           t0_int_handler   0x000072    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                 valid_on   0x00007e    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                     warm   0x000038    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+           channel_lookup   0x000005    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      itr   0x00000f    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                     main   0x000023    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                     warm   0x000038    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                     loop   0x00003b    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                    rx_ok   0x000048    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+             state_on_off   0x000067    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+               state_done   0x00006e    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+           t0_int_handler   0x000072    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                state_out   0x000079    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                 valid_on   0x00007e    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+              mrx_receive   0x000080    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s3   0x000080    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s4   0x000081    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s5   0x000082    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s2   0x000088    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s6   0x00008a    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                     s6_w   0x00008b    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s7   0x000094    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                       s8   0x000095    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                   s8_ss0   0x000097    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                   s9_ss0   0x000099    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                   s8_ss1   0x00009f    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                   s9_ss1   0x0000a1    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s10   0x0000a7    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s11   0x0000a9    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s12   0x0000ad    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s13   0x0000b1    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s14   0x0000b4    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s15   0x0000b6    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                      s16   0x0000b8    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+           s16_header_end   0x0000c0    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                next_byte   0x0000c5    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+           s16_not_header   0x0000c8    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                   s16_s2   0x0000d2    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                   s16_s4   0x0000d5    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+              mrx_chk_buf   0x0000dd    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                     chk0   0x0000e3    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                  chk_err   0x0000fe    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+                 mrx_init   0x0000ff    program     static D:\PIC\RC\DIY-RC\Reciever\Project\reciever.asm
+
+

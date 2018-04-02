@@ -1,0 +1,357 @@
+MPASM  5.35beta          NES JOYSTICK DECODER.ASM   6-14-2012  15:51:58         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;==================================================================================================
+                      00002 ;====================================  NES Joystic Decoder 1.0 ====================================
+                      00003 ;================================== DERKACH OLEXANDR DEVELOPMENT ==================================
+                      00004 ;========================================= (c) 2012 Alche =========================================
+                      00005 ;=========================================  alche@ukr.net =========================================
+                      00006 ;==================================================================================================
+                      00007 
+                      00008  #include       <P12F675.inc>                           ;файл стандартных определений
+                      00001         LIST
+                      00002 ; P12F675.INC  Standard Header File, Version 1.04    Microchip Technology, Inc.
+                      00284         LIST
+Warning[205]: Found directive in column 1. (__CONFIG)
+2007   3FC4           00009 __CONFIG _INTRC_OSC_NOCLKOUT & _WDT_OFF & _PWRTE_ON & _MCLRE_OFF & _CP_OFF & _CPD_OFF
+                      00010 
+                      00011 ;==================================================================================================
+                      00012 ;==================================== Раздел описания констант ====================================
+                      00013 ;==================================================================================================
+                      00014         #DEFINE PRER            GPIO,4                  ;Ввод даных
+                      00015         #DEFINE CLK                     GPIO,5                  ;Вывод синхроимпульса
+                      00016         #DEFINE PS                      GPIO,2                  ;Вывод записи в регистр
+                      00017         #DEFINE OUT                     GPIO,1                  ;Вывод результата
+                      00018 
+                      00019         CBLOCK  0x020
+  00000020            00020         rezult                                                          ;Ячейка результата
+  00000021            00021         cnt                                                                     ;Ячейка счета
+  00000022            00022         temp                                                            ;Временная ячейка 1
+                      00023         ENDC
+                      00024 
+                      00025 PAUSE macro
+                      00026         movlw   0xFF
+                      00027         movwf   temp
+                      00028         decfsz  temp
+                      00029         goto    $-1
+Warning[205]: Found directive in column 1. (endm)
+                      00030 endm
+                      00031 
+Warning[205]: Found directive in column 1. (org)
+                      00032 org 0x000
+0000   2???           00033         goto    START
+                      00034 ;==================================================================================================
+                      00035 ;==================================== Начальная  инициализация ====================================
+                      00036 ;==================================================================================================
+0001                  00037 START
+0001   018B           00038         clrf    INTCON                                          ;Очистка регистра прерываний
+0002   1683           00039         bsf             STATUS,RP0                              ;Банк 1
+0003   3000           00040         movlw   b'00000000'                                     ;Значение для регистра OPTION
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0004   0081           00041         movwf   OPTION_REG                                      ;Поместили значение в регистр OPTION
+0005   1283           00042         bcf             STATUS,RP0                                      ;Вернулись в Банк 0
+0006   0185           00043         clrf    GPIO                                            ;Очистили порт
+0007   3007           00044         movlw   b'00000111'                                     ;Значение для конфигурации компаратора (
+                            отключаем)
+0008   0099           00045         movwf   CMCON                                           ;Поместили в регистр конфигурации компар
+MPASM  5.35beta          NES JOYSTICK DECODER.ASM   6-14-2012  15:51:58         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                            атора
+                      00046 
+0009   1683           00047         bsf             STATUS,RP0                                      ;Переходим в банк 1
+000A   3010           00048         movlw   b'00010000'                                     ;Слово конфигурации для ANSEL, FOsc/2 GP
+                            0 аналоговый вход
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000B   009F           00049         movwf   ANSEL                                           ;Поместили слово в регистр
+000C   3010           00050         movlw   b'00010000'                                     ;GP4 вход, остальные выходы
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000D   0085           00051         movwf   TRISIO                                          ;Поместили в регистр конфигурации входов
+                            /выходов
+000E   3012           00052         movlw   b'00010010'                                     ;Слово конфигурации для WPU 
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000F   0095           00053         movwf   WPU                                                     ;Включили подтягивающие резистор
+                            ы
+                      00054 
+0010   1283           00055         bcf             STATUS,RP0                                      ;Вернулись в банк 0
+0011   3081           00056         movlw   b'10000001'                                     ;Слово конфигурации для ADCON
+0012   009F           00057         movwf   ADCON0                                          ;Поместили слово в регистр
+                      00058 
+0013                  00059 INIT
+0013   01A0           00060         clrf    rezult                                          ;Очистили ячейку результата             
+                                    
+0014   1685           00061         bsf             CLK                                                     ;Установили 1 на выводе 
+                            тактирования сдвигового регистра
+0015   1505           00062         bsf             PS                                                      ;Дали команду регистру с
+                            читать состояние выводов
+                      00063         PAUSE                                                           ;Небольшая задержка
+0016   30FF               M         movlw   0xFF
+0017   00A2               M         movwf   temp
+Message[305]: Using default destination of 1 (file).
+0018   0BA2               M         decfsz  temp
+0019   2???               M         goto    $-1
+001A   1105           00064         bcf             PS                                                      ;Установили 0 на выводе 
+                            PS
+                      00065 
+001B                  00066 OPROS
+001B   3008           00067         movlw   0x08                                            ;Количество проходов для считывания выхо
+                            да регистра
+001C   00A1           00068         movwf   cnt                                                     ;Поместили во временную ячейку с
+                            чета
+001D                  00069 TAKTLOOP
+001D   2???           00070         call    TAKT                                            ;Будем тактировать вывод и считать резул
+                            ьтат
+Message[305]: Using default destination of 1 (file).
+001E   0BA1           00071         decfsz  cnt                                                     ;Декримент ячейки счети
+001F   2???           00072         goto    TAKTLOOP                                        ;Если не 0 то на начало цикла
+Message[305]: Using default destination of 1 (file).
+0020   0AA0           00073         incf    rezult                                          ;Иначе инкриментируем результат
+Message[305]: Using default destination of 1 (file).
+0021   0BA0           00074         decfsz  rezult                                          ;Теперь декриментируем
+0022   2???           00075         goto    OUTREZULT                                       ;Если резуьтат не ноль то будем его выво
+                            дить
+MPASM  5.35beta          NES JOYSTICK DECODER.ASM   6-14-2012  15:51:58         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0023   2???           00076         goto    INIT                                            ;Иначе будем опрашивать снова
+                      00077 
+0024                  00078 TAKT
+Message[305]: Using default destination of 1 (file).
+0024   0DA0           00079         rlf             rezult                                          ;Сдвинем результат влево
+0025   1685           00080         bsf             CLK                                                     ;Установим 1 на выводе с
+                            двига регистра
+0026   1E05           00081         btfss   PRER                                            ;Проверим состояние входа
+0027   1420           00082         bsf             rezult,0                                        ;Если пришел 0 то установим нуле
+                            вой бит регистра результата в 1
+0028   1285           00083         bcf             CLK                                                     ;Установим 0 на выводе с
+                            двига регистра
+0029   0008           00084  return                                                                 ;и возвращаемся
+                      00085 
+002A                  00086 OUTREZULT
+002A   0820           00087         movfw   rezult                                          ;Поместили в рабочий регистр результат
+002B   00A1           00088         movwf   cnt                                                     ;Рабочий регистр во временную яч
+                            ейку счета
+002C                  00089 OUTLOOP
+002C   1085           00090         bcf             OUT                                                     ;Установим 0 на выходе
+002D   1485           00091         bsf             OUT                                                     ;установим 1 на выходе
+Message[305]: Using default destination of 1 (file).
+002E   0BA1           00092         decfsz  cnt                                                     ;Уменьшим счетчик на 1, если сче
+                            тчик не 0
+002F   2???           00093         goto    OUTLOOP                                         ;то на начало цикла
+0030   2???           00094         goto    INIT                                            ;иначе возвращаемся в самое начало
+Warning[205]: Found directive in column 1. (end)
+3FC4                  00095 end
+MPASM  5.35beta          NES JOYSTICK DECODER.ASM   6-14-2012  15:51:58         PAGE  4
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADCON0                            0000001F
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+ANS0                              00000000
+ANS1                              00000001
+ANS2                              00000002
+ANS3                              00000003
+ANSEL                             0000009F
+C                                 00000000
+CAL0                              00000002
+CAL1                              00000003
+CAL2                              00000004
+CAL3                              00000005
+CAL4                              00000006
+CAL5                              00000007
+CHS0                              00000002
+CHS1                              00000003
+CINV                              00000004
+CIS                               00000003
+CLK                               GPIO,5
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             00000019
+CMIE                              00000003
+CMIF                              00000003
+COUT                              00000006
+DC                                00000001
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDAT                             0000009A
+EEDATA                            0000009A
+EEIE                              00000007
+EEIF                              00000007
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+GO                                00000001
+GO_DONE                           00000001
+GP0                               00000000
+GP1                               00000001
+GP2                               00000002
+GP3                               00000003
+GP4                               00000004
+GP5                               00000005
+MPASM  5.35beta          NES JOYSTICK DECODER.ASM   6-14-2012  15:51:58         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+GPIE                              00000003
+GPIF                              00000000
+GPIO                              00000005
+GPIO0                             00000000
+GPIO1                             00000001
+GPIO2                             00000002
+GPIO3                             00000003
+GPIO4                             00000004
+GPIO5                             00000005
+INDF                              00000000
+INIT                              00000013
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IOC                               00000096
+IOC0                              00000000
+IOC1                              00000001
+IOC2                              00000002
+IOC3                              00000003
+IOC4                              00000004
+IOC5                              00000005
+IOCB                              00000096
+IOCB0                             00000000
+IOCB1                             00000001
+IOCB2                             00000002
+IOCB3                             00000003
+IOCB4                             00000004
+IOCB5                             00000005
+IRP                               00000007
+NOT_BOD                           00000000
+NOT_DONE                          00000001
+NOT_GPPU                          00000007
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OPROS                             0000001B
+OPTION_REG                        00000081
+OSCCAL                            00000090
+OUT                               GPIO,1
+OUTLOOP                           0000002C
+OUTREZULT                         0000002A
+PAUSE                             
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PRER                              GPIO,4
+PS                                GPIO,2
+PS0                               00000000
+MPASM  5.35beta          NES JOYSTICK DECODER.ASM   6-14-2012  15:51:58         PAGE  6
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+START                             00000001
+STATUS                            00000003
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1IE                              00000000
+T1IF                              00000000
+T1OSCEN                           00000003
+TAKT                              00000024
+TAKTLOOP                          0000001D
+TMR0                              00000001
+TMR1CS                            00000001
+TMR1GE                            00000006
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TRISIO                            00000085
+VCFG                              00000006
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             00000099
+VREN                              00000007
+VRR                               00000005
+W                                 00000000
+WPU                               00000095
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_.org_0_0019                      00000019
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00003F7F
+_EC_OSC                           00003FFB
+_EXTRC_OSC_CLKOUT                 00003FFF
+_EXTRC_OSC_NOCLKOUT               00003FFE
+MPASM  5.35beta          NES JOYSTICK DECODER.ASM   6-14-2012  15:51:58         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_HS_OSC                           00003FFA
+_INTRC_OSC_CLKOUT                 00003FFD
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FF8
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FEF
+_WDT_OFF                          00003FF7
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FF9
+__12F675                          00000001
+__DEBUG                           1
+cnt                               00000021
+rezult                            00000020
+temp                              00000022
+
+Errors   :     0
+Warnings :     4 reported,     0 suppressed
+Messages :    10 reported,     0 suppressed
+
+

@@ -1,0 +1,25 @@
+Warning[205] D:\PIC\NES\NESME 0607\NESME.ASM 10 : Found directive in column 1. (__CONFIG)
+Warning[207] D:\PIC\NES\NESME 0607\NESME.ASM 41 : Found label after column 1. (packet_len)
+Warning[205] D:\PIC\NES\NESME 0607\NESME.ASM 52 : Found directive in column 1. (org)
+Message[302] D:\PIC\NES\NESME 0607\NESME.ASM 61 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\PIC\NES\NESME 0607\NESME.ASM 63 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\PIC\NES\NESME 0607\NESME.ASM 71 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\PIC\NES\NESME 0607\NESME.ASM 73 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] D:\PIC\NES\NESME 0607\NESME.ASM 75 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 90 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 47 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 108 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 110 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 111 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 116 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 130 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 142 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 158 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 276 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 279 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 280 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 289 : Using default destination of 1 (file).
+Message[305] D:\PIC\NES\NESME 0607\NESME.ASM 291 : Using default destination of 1 (file).
+Warning[203] D:\PIC\NES\NESME 0607\NESME.ASM 293 : Found opcode in column 1. (return)
+Warning[205] D:\PIC\NES\NESME 0607\NESME.ASM 373 : Found directive in column 1. (org)
+Warning[202] D:\PIC\NES\NESME 0607\NESME.ASM 374 : Argument out of range.  Least significant bits used.

@@ -1,0 +1,96 @@
+MPLINK 4.43, Linker
+Linker Map File - Created Mon Sep 10 17:57:04 2012
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000152
+                   .org_2       code   0x0003ff    program   0x000002
+     .config_2007_NESME.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x0000a8      
+                            0x0003ff    0x0003ff      
+                            0x002007    0x002007      
+            171 out of 1158 program addresses used, program memory utilization is 14%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     BIT0   0x000077    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                     BIT1   0x000082    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                   ENCODE   0x000047    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                   HEADER   0x000055    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                     INIT   0x000017    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+               MANCHESTER   0x000052    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                    OPROS   0x000021    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                  OUTBYTE   0x00006b    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                  OUTLOOP   0x000035    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                OUTREZULT   0x000033    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                    PAUSE   0x0000a1    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                    START   0x000001    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                      SUM   0x00004b    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                     TAKT   0x00002a    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 TAKTLOOP   0x000023    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 TRANSMIT   0x000041    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+               UPDATE_SUM   0x00008d    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                    head0   0x000057    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 mtx_init   0x000052    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelaya0   0x000078    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelaya1   0x00007a    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelayb0   0x00007d    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelayb1   0x00007f    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelayc0   0x000083    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelayc1   0x000085    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelaye0   0x000088    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelaye1   0x00008a    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                   outbu0   0x000061    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                   outby0   0x00006e    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                   outby1   0x000073    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                   outby2   0x000074    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    START   0x000001    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                     INIT   0x000017    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                    OPROS   0x000021    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 TAKTLOOP   0x000023    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                     TAKT   0x00002a    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                OUTREZULT   0x000033    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                  OUTLOOP   0x000035    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 TRANSMIT   0x000041    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                   ENCODE   0x000047    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                      SUM   0x00004b    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 mtx_init   0x000052    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+               MANCHESTER   0x000052    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                   HEADER   0x000055    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                    head0   0x000057    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                   outbu0   0x000061    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                  OUTBYTE   0x00006b    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                   outby0   0x00006e    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                   outby1   0x000073    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                   outby2   0x000074    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                     BIT0   0x000077    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelaya0   0x000078    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelaya1   0x00007a    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelayb0   0x00007d    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelayb1   0x00007f    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                     BIT1   0x000082    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelayc0   0x000083    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelayc1   0x000085    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelaye0   0x000088    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                 ndelaye1   0x00008a    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+               UPDATE_SUM   0x00008d    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+                    PAUSE   0x0000a1    program     static D:\PIC\NES\NESME 1.0\NESME.asm
+
+

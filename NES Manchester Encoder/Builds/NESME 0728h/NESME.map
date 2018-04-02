@@ -1,0 +1,212 @@
+MPLINK 4.35, Linker
+Linker Map File - Created Sat Jul 28 16:11:07 2012
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000470
+                   .org_2       code   0x0003ff    program   0x000002
+     .config_2007_NESME.O       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000237      
+                            0x0003ff    0x0003ff      
+                            0x002007    0x002007      
+            570 out of 1168 program addresses used, program memory utilization is 48%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     BIT0   0x00006a    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                     BIT1   0x000075    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   ENCODE   0x000094    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   HEADER   0x000048    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 HEADERTS   0x0000a8    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                     INIT   0x000015    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               MANCHESTER   0x000045    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    OPROS   0x00001b    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  OUTBYTE   0x00005e    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                OUTBYTETS   0x0000af    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  OUTLOOP   0x000031    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                OUTREZULT   0x00002f    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    PAUSE   0x0000a0    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    START   0x000001    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                      SUM   0x000098    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                       T1   0x0000bf    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                     TAKT   0x000024    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 TAKTLOOP   0x00001d    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 TESTSEND   0x0000bd    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                TESTSEND2   0x0000dc    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                TESTSEND3   0x000115    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TESTSENDOK   0x000144    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                      TS1   0x000119    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    TS1OK   0x00015c    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                      TS2   0x000124    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    TS2OK   0x000193    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   TS2TS1   0x0000e0    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   TS2TS2   0x0000ef    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   TS2TS3   0x0000fc    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   TS2TS4   0x000109    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte1_1   0x0000e3    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte1_2   0x0000e5    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte1_3   0x0000e7    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte2_1   0x0000f0    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte2_2   0x0000f2    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte2_3   0x0000f4    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte3_1   0x0000fd    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte3_2   0x0000ff    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte3_3   0x000101    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte4_1   0x00010a    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte4_2   0x00010c    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte4_3   0x00010e    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                      TS3   0x00012f    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    TS3OK   0x0001ca    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                      TS4   0x00013a    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    TS4OK   0x000201    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               UPDATE_SUM   0x000080    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte1_1   0x00011a    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte1_1ok   0x000171    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte1_2   0x00011c    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte1_2ok   0x00017b    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte1_3   0x00011e    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte1_3ok   0x000185    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte2_1   0x000125    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte2_1ok   0x0001a8    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte2_2   0x000127    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte2_2ok   0x0001b2    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte2_3   0x000129    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte2_3ok   0x0001bc    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte3_1   0x000130    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte3_1ok   0x0001df    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte3_2   0x000132    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte3_2ok   0x0001e9    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte3_3   0x000134    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte3_3ok   0x0001f3    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte4_1   0x00013b    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte4_1ok   0x000216    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte4_2   0x00013d    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte4_2ok   0x000220    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte4_3   0x00013f    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte4_3ok   0x00022a    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    head0   0x00004a    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  head0ts   0x0000aa    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 mtx_init   0x000045    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelaya0   0x00006b    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelaya1   0x00006d    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelayb0   0x000070    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelayb1   0x000072    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelayc0   0x000076    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelayc1   0x000078    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelaye0   0x00007b    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelaye1   0x00007d    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   outbu0   0x000054    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   outby0   0x000061    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 outby0ts   0x0000b2    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   outby1   0x000066    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 outby1ts   0x0000b7    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   outby2   0x000067    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 outby2ts   0x0000b8    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                    START   0x000001    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                     INIT   0x000015    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    OPROS   0x00001b    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 TAKTLOOP   0x00001d    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                     TAKT   0x000024    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                OUTREZULT   0x00002f    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  OUTLOOP   0x000031    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 mtx_init   0x000045    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               MANCHESTER   0x000045    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   HEADER   0x000048    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    head0   0x00004a    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   outbu0   0x000054    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  OUTBYTE   0x00005e    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   outby0   0x000061    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   outby1   0x000066    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   outby2   0x000067    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                     BIT0   0x00006a    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelaya0   0x00006b    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelaya1   0x00006d    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelayb0   0x000070    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelayb1   0x000072    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                     BIT1   0x000075    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelayc0   0x000076    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelayc1   0x000078    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelaye0   0x00007b    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 ndelaye1   0x00007d    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               UPDATE_SUM   0x000080    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   ENCODE   0x000094    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                      SUM   0x000098    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    PAUSE   0x0000a0    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 HEADERTS   0x0000a8    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  head0ts   0x0000aa    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                OUTBYTETS   0x0000af    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 outby0ts   0x0000b2    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 outby1ts   0x0000b7    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 outby2ts   0x0000b8    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                 TESTSEND   0x0000bd    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                       T1   0x0000bf    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                TESTSEND2   0x0000dc    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   TS2TS1   0x0000e0    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte1_1   0x0000e3    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte1_2   0x0000e5    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte1_3   0x0000e7    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   TS2TS2   0x0000ef    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte2_1   0x0000f0    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte2_2   0x0000f2    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte2_3   0x0000f4    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   TS2TS3   0x0000fc    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte3_1   0x0000fd    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte3_2   0x0000ff    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte3_3   0x000101    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                   TS2TS4   0x000109    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte4_1   0x00010a    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte4_2   0x00010c    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TS2byte4_3   0x00010e    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                TESTSEND3   0x000115    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                      TS1   0x000119    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte1_1   0x00011a    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte1_2   0x00011c    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte1_3   0x00011e    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                      TS2   0x000124    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte2_1   0x000125    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte2_2   0x000127    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte2_3   0x000129    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                      TS3   0x00012f    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte3_1   0x000130    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte3_2   0x000132    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte3_3   0x000134    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                      TS4   0x00013a    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte4_1   0x00013b    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte4_2   0x00013d    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                  byte4_3   0x00013f    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+               TESTSENDOK   0x000144    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    TS1OK   0x00015c    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte1_1ok   0x000171    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte1_2ok   0x00017b    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte1_3ok   0x000185    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    TS2OK   0x000193    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte2_1ok   0x0001a8    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte2_2ok   0x0001b2    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte2_3ok   0x0001bc    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    TS3OK   0x0001ca    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte3_1ok   0x0001df    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte3_2ok   0x0001e9    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte3_3ok   0x0001f3    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                    TS4OK   0x000201    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte4_1ok   0x000216    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte4_2ok   0x000220    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+                byte4_3ok   0x00022a    program     static D:\PIC\NES\NESME 2807h\NESME.asm
+
+

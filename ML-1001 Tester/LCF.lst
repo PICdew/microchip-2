@@ -1,0 +1,261 @@
+MPASM  5.35beta                           LCF.ASM   10-28-2011  15:26:54         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;====================================================================================================
+                      00002 ;========================================= ML-1001 TESTER ===========================================
+                      00003 ;====================================================================================================
+                      00004 #include<P16F84a.inc>           ;файл стандартных определений
+                      00001         LIST
+                      00002 ; P16F84A.INC  Standard Header File, Version 2.00    Microchip Technology, Inc.
+                      00134         LIST
+2007   3FF9           00005  __CONFIG 3FF9  ;конфигурация: WDT включен, PWRTE включен, тактовый генератор HS
+                      00006 
+                      00007 ;  Описание портов
+                      00008         #DEFINE         DIN                     PORTA, 0                ;Управляющий сигнал охраны
+                      00009         #DEFINE         DCLK            PORTA, 1                ;Вывод подключения индикатора состояния
+                      00010         #DEFINE         LOAD            PORTA, 2                ;Вывод подключения датчика скорости
+                      00011 
+                      00012 ;  Описание констант
+                      00013         cblock  0x10                                                    ;Начальный адрес
+  00000010            00014         LCDDATA                                                                 ;Число для вывода на дис
+                            плей
+  00000011            00015         LOOPCNT
+  00000012            00016         temp
+  00000013            00017         cntmsec                         ;used in delay routine
+  00000014            00018         cnt_1
+  00000015            00019         cnt_2
+  00000016            00020         cnt_3
+  00000017            00021         Nsec
+                      00022 
+                      00023         endc
+                      00024 
+                      00025 
+                      00026 
+                      00027 STROB   macro
+                      00028         bsf     DCLK
+                      00029 ;       call    DELAY_1sec
+                      00030         bcf     DCLK
+Warning[205]: Found directive in column 1. (endm)
+                      00031 endm
+                      00032 LOADD   macro
+                      00033         bsf     LOAD
+                      00034 ;       call    DELAY_1sec
+                      00035         bcf     LOAD
+Warning[205]: Found directive in column 1. (endm)
+                      00036 endm
+                      00037 
+                      00038 
+Warning[205]: Found directive in column 1. (org)
+0000                  00039 org 0x000
+0000   2801           00040         goto START
+                      00041 
+                      00042 
+                      00043 
+                      00044 
+                      00045 ;====================================================================================================
+                      00046 ;================================== Инициализация портов контролера =================================
+MPASM  5.35beta                           LCF.ASM   10-28-2011  15:26:54         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00047 ;====================================================================================================
+                      00048 
+0001                  00049 START
+0001   1683           00050         bsf             STATUS,RP0          ;Включаем банк 1
+0002   3000           00051         movlw   B'00000000'         ;RA0 на вход  - все на вывод
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0003   0085           00052         movwf   TRISA               ;
+0004   3001           00053         movlw   B'00000001'         ;RB0 -  на ввод
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0005   0086           00054         movwf   TRISB               ;RB1...RB7 на вывод
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0006   1781           00055     bsf         OPTION_REG,NOT_RBPU ;Нагрузочные резисторы включены
+0007   1283           00056         bcf             STATUS,RP0          ;Снова банк 0
+                      00057 
+0008   158B           00058         BSF INTCON, RBIE; разрешение прерываний по линиям RB7:RB4
+0009   160B           00059         bsf INTCON,INTE
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000A   1701           00060         bsf OPTION_REG,INTEDG
+000B   178B           00061     BSF INTCON, GIE                     ;Разрешаем прерывания
+000C   0185           00062         clrf            PORTA               ;Настраиваем порт A
+000D   0186           00063         clrf            PORTB               ;Настраиваем порт В
+                      00064 
+                      00065 
+000E   3008           00066         movlw           .8;
+000F   0091           00067         movwf           LOOPCNT
+0010                  00068 LOOP
+0010   0811           00069         movfw           LOOPCNT
+0011   2028           00070         call            DECODE
+0012   0090           00071         movwf           LCDDATA
+0013                  00072 LCDSTART        
+0013   1105           00073         bcf                     LOAD
+0014   1005           00074         bcf                     DIN
+                      00075         STROB
+0015   1485               M         bsf     DCLK
+                          M ;       call    DELAY_1sec
+0016   1085               M         bcf     DCLK
+0017   3008           00076         movlw           0x08
+0018   0092           00077         movwf           temp
+0019                  00078 TOLCD
+0019   1C10           00079         btfss           LCDDATA,0
+001A   1005           00080         bcf                     DIN                             ;DOT SEG
+001B   1810           00081         btfsc           LCDDATA,0
+001C   1405           00082         bsf                     DIN
+                      00083         STROB
+001D   1485               M         bsf     DCLK
+                          M ;       call    DELAY_1sec
+001E   1085               M         bcf     DCLK
+Message[305]: Using default destination of 1 (file).
+001F   0C90           00084         rrf                     LCDDATA
+Message[305]: Using default destination of 1 (file).
+0020   0B92           00085         decfsz          temp
+0021   2819           00086         goto            TOLCD
+                      00087         LOADD
+MPASM  5.35beta                           LCF.ASM   10-28-2011  15:26:54         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0022   1505               M         bsf     LOAD
+                          M ;       call    DELAY_1sec
+0023   1105               M         bcf     LOAD
+Message[305]: Using default destination of 1 (file).
+0024   0B91           00088         decfsz          LOOPCNT
+0025   2810           00089         goto            LOOP
+0026   0000           00090         nop
+0027   2826           00091         goto            $-1
+                      00092 
+                      00093 
+0028                  00094 DECODE
+                      00095 
+0028   0782           00096         addwf   PCL,F                   ;Добавляем к PCL значение выводимой цифры
+                      00097                          ;DEGFABCT
+0029   34DE           00098         retlw   B'11011110'             ;Цифра "0"
+002A   3406           00099         retlw   B'00000110'             ;Цифра "1"
+002B   34EC           00100         retlw   B'11101100'             ;Цифра "2"
+002C   34AE           00101         retlw   B'10101110'             ;Цифра "3"
+002D   3436           00102         retlw   B'00110110'             ;Цифра "4"
+002E   34BA           00103         retlw   B'10111010'             ;Цифра "5"
+002F   34FA           00104         retlw   B'11111010'             ;Цифра "6"
+0030   340E           00105         retlw   B'00001110'             ;Цифра "7"
+0031   34FE           00106         retlw   B'11111110'             ;Цифра "8"
+0032   34BE           00107         retlw   B'10111110'             ;Цифра "9"
+0033   341C           00108         retlw   B'00011100'             ;Символ "t"
+Warning[203]: Found opcode in column 1. (return)
+0034   0008           00109 return
+                      00110 
+Warning[205]: Found directive in column 1. (end)
+                      00111 end
+MPASM  5.35beta                           LCF.ASM   10-28-2011  15:26:54         PAGE  4
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+C                                 00000000
+DC                                00000001
+DCLK                              PORTA, 1
+DECODE                            00000028
+DIN                               PORTA, 0
+EEADR                             00000009
+EECON1                            00000088
+EECON2                            00000089
+EEDATA                            00000008
+EEIE                              00000006
+EEIF                              00000004
+F                                 00000001
+FSR                               00000004
+GIE                               00000007
+INDF                              00000000
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IRP                               00000007
+LCDDATA                           00000010
+LCDSTART                          00000013
+LOAD                              PORTA, 2
+LOADD                             
+LOOP                              00000010
+LOOPCNT                           00000011
+NOT_PD                            00000003
+NOT_RBPU                          00000007
+NOT_TO                            00000004
+Nsec                              00000017
+OPTION_REG                        00000081
+PCL                               00000002
+PCLATH                            0000000A
+PORTA                             00000005
+PORTB                             00000006
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RBIE                              00000003
+RBIF                              00000000
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+START                             00000001
+STATUS                            00000003
+STROB                             
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+TMR0                              00000001
+TOLCD                             00000019
+MPASM  5.35beta                           LCF.ASM   10-28-2011  15:26:54         PAGE  5
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISA                             00000085
+TRISB                             00000086
+W                                 00000000
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+Z                                 00000002
+_CP_OFF                           00003FFF
+_CP_ON                            0000000F
+_HS_OSC                           00003FFE
+_LP_OSC                           00003FFC
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FF7
+_RC_OSC                           00003FFF
+_WDT_OFF                          00003FFB
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FFD
+__16F84A                          00000001
+__DEBUG                           1
+cnt_1                             00000014
+cnt_2                             00000015
+cnt_3                             00000016
+cntmsec                           00000013
+temp                              00000012
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXX-----------
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:    53
+Program Memory Words Free:   971
+
+
+Errors   :     0
+Warnings :     5 reported,     0 suppressed
+Messages :     7 reported,     0 suppressed
+
+
